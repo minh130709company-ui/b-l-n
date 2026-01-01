@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gacha Của Tớ ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #0c0c14;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Máy Gacha */
+        .gacha-machine {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            z-index: 10;
+        }
+        
+        .machine-core {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(45deg, #ff2e63, #ff6b9d);
+            border-radius: 50%;
+            box-shadow: 
+                0 0 60px rgba(255, 46, 99, 0.7),
+                inset 0 0 30px rgba(255, 255, 255, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .machine-core:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 
+                0 0 80px rgba(255, 46, 99, 0.9),
+                inset 0 0 40px rgba(255, 255, 255, 0.4);
+        }
+        
+        .machine-core i {
+            font-size: 50px;
+            color: white;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        }
+        
+        /* Các bóng phần thưởng */
+        .ball-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .ball {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--ball-color), #2a2a3e);
+            box-shadow: 
+                0 0 20px var(--ball-glow),
+                inset 0 0 10px rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .ball i {
+            font-size: 20px;
+            color: white;
+            opacity: 0.8;
+        }
+        
+        /* Khu vực hiển thị lời yêu thương */
+        .love-message {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 500px;
+            background: rgba(26, 26, 46, 0.95);
+            padding: 20px;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 46, 99, 0.3);
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            z-index: 5;
+        }
+        
+        .love-message.show {
+            opacity: 1;
+        }
+        
+        .message-text {
+            color: #ffd6e7;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            text-shadow: 0 0 10px rgba(255, 214, 231, 0.3);
+            font-weight: 300;
+        }
+        
+        /* Nút quay */
+        .spin-button {
+            position: absolute;
+            bottom: 8%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #ff2e63, #ff6b9d);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 46, 99, 0.4);
+            transition: all 0.3s;
+            font-weight: bold;
+            letter-spacing: 1px;
+            z-index: 10;
+        }
+        
+        .spin-button:hover {
+            transform: translateX(-50%) translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 46, 99, 0.6);
+        }
+        
+        .spin-button:disabled {
+            background: #444466;
+            cursor: not-allowed;
+            transform: translateX(-50%);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Hiệu ứng trái tim rơi */
+        .falling-hearts {
+            position: fixed;
+            top: -50px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+        
+        .falling-heart {
+            position: absolute;
+            color: #ff2e63;
+            font-size: 20px;
+            opacity: 0;
+            animation: heartFall 8s linear forwards;
+        }
+        
+        /* Bộ sưu tập sticker */
+        .sticker-collection {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            width: 90%;
+            max-width: 600px;
+            padding: 15px;
+            background: rgba(26, 26, 46, 0.7);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 46, 99, 0.2);
+        }
+        
+        .sticker-slot {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px dashed rgba(255, 46, 99, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .sticker-slot.filled {
+            background: linear-gradient(45deg, #ff2e63, #ff6b9d);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .sticker-slot i {
+            color: white;
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        /* Thông báo đặc biệt */
+        .special-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(45deg, #ff2e63, #ff9ec0);
+            padding: 40px;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 
+                0 0 100px rgba(255, 46, 99, 0.8),
+                inset 0 0 30px rgba(255, 255, 255, 0.4);
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s ease;
+            max-width: 80%;
+        }
+        
+        .special-message.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .special-text {
+            color: white;
+            font-size: 2.2rem;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            font-weight: bold;
+            line-height: 1.4;
+        }
+        
+        /* Animations */
+        @keyframes heartFall {
+            0% {
+                transform: translateY(-50px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes chaoticSpin {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(100px, -50px) rotate(90deg); }
+            50% { transform: translate(-80px, 60px) rotate(180deg); }
+            75% { transform: translate(70px, -70px) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(0.5);
+                opacity: 0;
+            }
+        }
+        
+        /* Counter */
+        .counter {
+            position: absolute;
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffd6e7;
+            font-size: 1.5rem;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 46, 99, 0.5);
+            z-index: 5;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .gacha-machine {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .machine-core {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .love-message {
+                width: 90%;
+                padding: 15px;
+            }
+            
+            .message-text {
+                font-size: 1.1rem;
+            }
+            
+            .special-text {
+                font-size: 1.8rem;
+            }
+            
+            .sticker-collection {
+                top: 8%;
+                gap: 8px;
+            }
+            
+            .sticker-slot {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .counter {
+                top: 3%;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Counter -->
+        <div class="counter" id="counter">
+            STICKER: <span id="stickerCount">0</span>/10
+        </div>
+        
+        <!-- Bộ sưu tập sticker -->
+        <div class="sticker-collection" id="stickerCollection">
+            <!-- Các ô sticker sẽ được thêm bằng JavaScript -->
+        </div>
+        
+        <!-- Máy Gacha -->
+        <div class="gacha-machine">
+            <div class="machine-core" id="machineCore">
+                <i class="fas fa-heart"></i>
+            </div>
+            <div class="ball-container" id="ballContainer">
+                <!-- Các bóng sẽ được tạo bằng JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Lời yêu thương -->
+        <div class="love-message" id="loveMessage">
+            <div class="message-text" id="messageText">
+                Nhấn vào trái tim để bắt đầu ❤️
+            </div>
+        </div>
+        
+        <!-- Nút quay -->
+        <button class="spin-button" id="spinButton">
+            <i class="fas fa-play-circle"></i> BẮT ĐẦU
+        </button>
+        
+        <!-- Hiệu ứng trái tim rơi -->
+        <div class="falling-hearts" id="fallingHearts"></div>
+        
+        <!-- Thông báo đặc biệt -->
+        <div class="special-message" id="specialMessage">
+            <div class="special-text" id="specialText">
+                Ngoannn, khongg khóc, có tớ ở đây bên bé rồi ❤️
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Danh sách các lời yêu thương của bạn
+        const loveMessages = [
+            "Tớ thích bé, thương béeeee ❤️",
+            "Tớ nhớ bé siuuu siuuu nhìu luôn 😘",
+            "Tớ sẽ trở nên tốt hơn, bé ở bên tớ nhéeee 💪",
+            "Nhìn gần thì mắt bồ câu, nhìn xa là mắt con dâu mẹ mình 😍",
+            "Bé xinhhh gái nhấc thế giớiiii ✨",
+            "Tớ bù đắp hếc tất cả tổn thương của bé nhéee 🛡️",
+            "Đồ ngốc đừng có nghĩ linhhh tinhhh nhớ 💭",
+            "Tớ không thương cậu thì ai thương :( 🥺",
+            "Chúng mình cùng bên nhauu nhéee 🤝",
+            "Vì bé là em bé bé bỏng của tớ, nên em bé thì không phải làm rì cạ, không được nghĩ rì cả nghe chưaaa 👶"
+        ];
+
+        // Màu sắc cho các bóng
+        const ballColors = [
+            { color: "#ff2e63", glow: "rgba(255, 46, 99, 0.6)" },
+            { color: "#ff6b9d", glow: "rgba(255, 107, 157, 0.6)" },
+            { color: "#ff9ec0", glow: "rgba(255, 158, 192, 0.6)" },
+            { color: "#4dffea", glow: "rgba(77, 255, 234, 0.6)" },
+            { color: "#6a67ce", glow: "rgba(106, 103, 206, 0.6)" },
+            { color: "#ffcc00", glow: "rgba(255, 204, 0, 0.6)" },
+            { color: "#00ff88", glow: "rgba(0, 255, 136, 0.6)" },
+            { color: "#9d4edd", glow: "rgba(157, 78, 221, 0.6)" }
+        ];
+
+        // Biến trạng thái
+        let isSpinning = false;
+        let balls = [];
+        let collectedStickers = [];
+        let spinCount = 0;
+
+        // Tạo các bóng xung quanh máy gacha
+        function createBalls() {
+            const ballContainer = document.getElementById('ballContainer');
+            const numBalls = 12;
+            
+            for (let i = 0; i < numBalls; i++) {
+                const ball = document.createElement('div');
+                ball.className = 'ball';
+                
+                const colorIndex = i % ballColors.length;
+                ball.style.setProperty('--ball-color', ballColors[colorIndex].color);
+                ball.style.setProperty('--ball-glow', ballColors[colorIndex].glow);
+                
+                // Thêm icon vào bóng
+                const icon = document.createElement('i');
+                const icons = ['fa-heart', 'fa-star', 'fa-gem', 'fa-moon', 'fa-sun', 'fa-cloud'];
+                icon.className = `fas ${icons[i % icons.length]}`;
+                ball.appendChild(icon);
+                
+                // Đặt vị trí ban đầu (vòng tròn)
+                const radius = 100;
+                const angle = (i / numBalls) * 2 * Math.PI;
+                const x = radius * Math.cos(angle);
+                const y = radius * Math.sin(angle);
+                
+                ball.style.left = `calc(50% + ${x}px - 25px)`;
+                ball.style.top = `calc(50% + ${y}px - 25px)`;
+                
+                ballContainer.appendChild(ball);
+                balls.push({
+                    element: ball,
+                    x: 0,
+                    y: 0,
+                    vx: 0,
+                    vy: 0
+                });
+            }
+        }
+
+        // Tạo bộ sưu tập sticker
+        function createStickerSlots() {
+            const collection = document.getElementById('stickerCollection');
+            
+            for (let i = 0; i < 10; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'sticker-slot';
+                slot.id = `stickerSlot${i}`;
+                
+                const icon = document.createElement('i');
+                icon.className = 'fas fa-heart';
+                slot.appendChild(icon);
+                
+                collection.appendChild(slot);
+            }
+        }
+
+        // Cập nhật bộ sưu tập sticker
+        function updateStickerCollection(messageIndex) {
+            if (collectedStickers.includes(messageIndex)) return;
+            
+            collectedStickers.push(messageIndex);
+            
+            // Cập nhật ô sticker
+            const slot = document.getElementById(`stickerSlot${collectedStickers.length - 1}`);
+            slot.classList.add('filled');
+            
+            // Cập nhật counter
+            document.getElementById('stickerCount').textContent = collectedStickers.length;
+            
+            // Nếu đã thu thập đủ 10 sticker
+            if (collectedStickers.length >= 10) {
+                showSpecialMessage();
+            }
+        }
+
+        // Hiển thị thông báo đặc biệt
+        function showSpecialMessage() {
+            const specialMessage = document.getElementById('specialMessage');
+            specialMessage.classList.add('show');
+            
+            // Tạo nhiều trái tim rơi hơn
+            createHeartRain(50);
+            
+            // Vô hiệu hóa nút quay
+            document.getElementById('spinButton').disabled = true;
+            document.getElementById('spinButton').innerHTML = '<i class="fas fa-check-circle"></i> HOÀN THÀNH';
+            
+            // Đổi màu counter
+            document.getElementById('counter').style.color = '#ffcc00';
+            document.getElementById('counter').style.textShadow = '0 0 20px rgba(255, 204, 0, 0.8)';
+        }
+
+        // Tạo hiệu ứng trái tim rơi
+        function createHeartRain(count = 15) {
+            const container = document.getElementById('fallingHearts');
+            
+            for (let i = 0; i < count; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'falling-heart';
+                heart.innerHTML = '<i class="fas fa-heart"></i>';
+                
+                // Vị trí ngẫu nhiên
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.fontSize = `${Math.random() * 15 + 15}px`;
+                heart.style.animationDelay = `${Math.random() * 2}s`;
+                
+                // Màu sắc ngẫu nhiên
+                const colors = ['#ff2e63', '#ff6b9d', '#ff9ec0', '#ffcc00', '#4dffea'];
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                
+                container.appendChild(heart);
+                
+                // Xóa heart sau khi animation kết thúc
+                setTimeout(() => {
+                    if (heart.parentNode === container) {
+                        container.removeChild(heart);
+                    }
+                }, 8000);
+            }
+        }
+
+        // Hiệu ứng bóng bắn lộn xộn
+        function chaoticBalls() {
+            if (!isSpinning) return;
+            
+            balls.forEach(ball => {
+                // Tạo chuyển động ngẫu nhiên
+                const speed = 8;
+                const angle = Math.random() * 2 * Math.PI;
+                const distance = Math.random() * 150 + 50;
+                
+                const x = distance * Math.cos(angle);
+                const y = distance * Math.sin(angle);
+                
+                // Áp dụng chuyển động
+                ball.element.style.transition = 'all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55)';
+                ball.element.style.left = `calc(50% + ${x}px - 25px)`;
+                ball.element.style.top = `calc(50% + ${y}px - 25px)`;
+                
+                // Hiệu ứng xoay
+                ball.element.style.transform = `rotate(${Math.random() * 360}deg) scale(${Math.random() * 0.3 + 0.8})`;
+            });
+            
+            // Tiếp tục hiệu ứng nếu đang quay
+            if (isSpinning) {
+                setTimeout(() => {
+                    chaoticBalls();
+                }, 800);
+            }
+        }
+
+        // Quay máy gacha
+        function spinGacha() {
+            if (isSpinning || collectedStickers.length >= 10) return;
+            
+            isSpinning = true;
+            spinCount++;
+            
+            const spinButton = document.getElementById('spinButton');
+            const machineCore = document.getElementById('machineCore');
+            const loveMessage = document.getElementById('loveMessage');
+            const messageText = document.getElementById('messageText');
+            
+            // Vô hiệu hóa nút
+            spinButton.disabled = true;
+            spinButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ĐANG QUAY...';
+            
+            // Hiệu ứng cho máy gacha
+            machineCore.style.animation = 'pulse 0.5s infinite';
+            
+            // Ẩn thông điệp cũ
+            loveMessage.classList.remove('show');
+            
+            // Tạo trái tim rơi
+            createHeartRain(10);
+            
+            // Bắt đầu hiệu ứng bóng lộn xộn
+            chaoticBalls();
+            
+            // Quay trong 2.5 giây
+            setTimeout(() => {
+                // Dừng hiệu ứng
+                isSpinning = false;
+                machineCore.style.animation = '';
+                
+                // Chọn ngẫu nhiên một lời yêu thương (chưa có trong bộ sưu tập nếu có thể)
+                let availableMessages = [];
+                for (let i = 0; i < loveMessages.length; i++) {
+                    if (!collectedStickers.includes(i)) {
+                        availableMessages.push(i);
+                    }
+                }
+                
+                // Nếu đã chọn hết tất cả, cho phép chọn lại
+                if (availableMessages.length === 0) {
+                    availableMessages = Array.from({length: loveMessages.length}, (_, i) => i);
+                }
+                
+                const randomIndex = availableMessages[Math.floor(Math.random() * availableMessages.length)];
+                const selectedMessage = loveMessages[randomIndex];
+                
+                messageText.textContent = selectedMessage;
+                
+                // Thêm vào bộ sưu tập sticker
+                updateStickerCollection(randomIndex);
+                
+                // Hiển thị thông điệp
+                setTimeout(() => {
+                    loveMessage.classList.add('show');
+                }, 300);
+                
+                // Đưa các bóng về vị trí ban đầu
+                balls.forEach((ball, i) => {
+                    const radius = 100;
+                    const angle = (i / balls.length) * 2 * Math.PI;
+                    const x = radius * Math.cos(angle);
+                    const y = radius * Math.sin(angle);
+                    
+                    setTimeout(() => {
+                        ball.element.style.transition = 'all 1s ease-out';
+                        ball.element.style.left = `calc(50% + ${x}px - 25px)`;
+                        ball.element.style.top = `calc(50% + ${y}px - 25px)`;
+                        ball.element.style.transform = 'rotate(0deg) scale(1)';
+                    }, i * 50);
+                });
+                
+                // Kích hoạt lại nút nếu chưa đủ 10 sticker
+                if (collectedStickers.length < 10) {
+                    setTimeout(() => {
+                        spinButton.disabled = false;
+                        spinButton.innerHTML = '<i class="fas fa-play-circle"></i> QUAY LẠI';
+                    }, 1500);
+                }
+                
+            }, 2500);
+        }
+
+        // Khởi tạo khi trang được tải
+        document.addEventListener('DOMContentLoaded', function() {
+            createBalls();
+            createStickerSlots();
+            
+            // Sự kiện cho nút quay
+            document.getElementById('spinButton').addEventListener('click', spinGacha);
+            
+            // Sự kiện cho máy gacha
+            document.getElementById('machineCore').addEventListener('click', spinGacha);
+            
+            // Hiển thị thông điệp chào mừng
+            setTimeout(() => {
+                document.getElementById('loveMessage').classList.add('show');
+            }, 500);
+            
+            // Tạo một vài trái tim rơi nhẹ khi khởi động
+            setTimeout(() => {
+                createHeartRain(5);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
