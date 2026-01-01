@@ -26,8 +26,65 @@
             width: 100vw;
             height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+        }
+        
+        /* Counter */
+        .counter {
+            position: absolute;
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffd6e7;
+            font-size: 1.5rem;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 46, 99, 0.5);
+            z-index: 5;
+        }
+        
+        /* Bộ sưu tập sticker */
+        .sticker-collection {
+            position: absolute;
+            top: 12%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            width: 90%;
+            max-width: 600px;
+            padding: 15px;
+            background: rgba(26, 26, 46, 0.7);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 46, 99, 0.2);
+        }
+        
+        .sticker-slot {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px dashed rgba(255, 46, 99, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .sticker-slot.filled {
+            background: linear-gradient(45deg, #ff2e63, #ff6b9d);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .sticker-slot i {
+            color: white;
+            font-size: 18px;
+            opacity: 0.9;
         }
         
         /* Máy Gacha */
@@ -36,6 +93,7 @@
             width: 200px;
             height: 200px;
             z-index: 10;
+            margin-bottom: 20px;
         }
         
         .machine-core {
@@ -106,11 +164,11 @@
         /* Khu vực hiển thị lời yêu thương */
         .love-message {
             position: absolute;
-            bottom: 15%;
+            bottom: 18%;
             left: 50%;
             transform: translateX(-50%);
-            width: 80%;
-            max-width: 500px;
+            width: 85%;
+            max-width: 550px;
             background: rgba(26, 26, 46, 0.95);
             padding: 20px;
             border-radius: 20px;
@@ -133,6 +191,69 @@
             line-height: 1.6;
             text-shadow: 0 0 10px rgba(255, 214, 231, 0.3);
             font-weight: 300;
+            margin-bottom: 15px;
+            min-height: 80px;
+        }
+        
+        /* Audio Controls */
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .audio-btn {
+            background: linear-gradient(45deg, #ff2e63, #ff6b9d);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 46, 99, 0.4);
+        }
+        
+        .audio-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(255, 46, 99, 0.6);
+        }
+        
+        .audio-btn:disabled {
+            background: #444466;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffd6e7;
+        }
+        
+        .volume-slider {
+            width: 100px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .volume-fill {
+            position: absolute;
+            height: 100%;
+            background: #ff2e63;
+            border-radius: 3px;
+            width: 70%;
         }
         
         /* Nút quay */
@@ -186,49 +307,6 @@
             animation: heartFall 8s linear forwards;
         }
         
-        /* Bộ sưu tập sticker */
-        .sticker-collection {
-            position: absolute;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            width: 90%;
-            max-width: 600px;
-            padding: 15px;
-            background: rgba(26, 26, 46, 0.7);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 46, 99, 0.2);
-        }
-        
-        .sticker-slot {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px dashed rgba(255, 46, 99, 0.3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s;
-        }
-        
-        .sticker-slot.filled {
-            background: linear-gradient(45deg, #ff2e63, #ff6b9d);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
-        }
-        
-        .sticker-slot i {
-            color: white;
-            font-size: 18px;
-            opacity: 0.9;
-        }
-        
         /* Thông báo đặc biệt */
         .special-message {
             position: absolute;
@@ -261,6 +339,35 @@
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
             font-weight: bold;
             line-height: 1.4;
+            margin-bottom: 20px;
+        }
+        
+        .special-audio-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .special-audio-btn {
+            background: rgba(255, 255, 255, 0.9);
+            color: #ff2e63;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .special-audio-btn:hover {
+            transform: scale(1.1);
+            background: white;
         }
         
         /* Animations */
@@ -288,34 +395,12 @@
             50% { transform: scale(1.05); }
         }
         
-        @keyframes floatUp {
-            0% {
-                transform: translateY(0) scale(1);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) scale(0.5);
-                opacity: 0;
-            }
-        }
-        
-        /* Counter */
-        .counter {
-            position: absolute;
-            top: 5%;
-            left: 50%;
-            transform: translateX(-50%);
+        /* Audio loading */
+        .audio-loading {
+            display: none;
             color: #ffd6e7;
-            font-size: 1.5rem;
-            text-align: center;
-            text-shadow: 0 0 10px rgba(255, 46, 99, 0.5);
-            z-index: 5;
+            font-size: 0.9rem;
+            margin-top: 5px;
         }
         
         /* Responsive */
@@ -333,10 +418,12 @@
             .love-message {
                 width: 90%;
                 padding: 15px;
+                bottom: 20%;
             }
             
             .message-text {
                 font-size: 1.1rem;
+                min-height: 70px;
             }
             
             .special-text {
@@ -344,7 +431,7 @@
             }
             
             .sticker-collection {
-                top: 8%;
+                top: 10%;
                 gap: 8px;
             }
             
@@ -356,6 +443,12 @@
             .counter {
                 top: 3%;
                 font-size: 1.2rem;
+            }
+            
+            .spin-button {
+                bottom: 5%;
+                padding: 12px 30px;
+                font-size: 1rem;
             }
         }
     </style>
@@ -388,6 +481,29 @@
             <div class="message-text" id="messageText">
                 Nhấn vào trái tim để bắt đầu ❤️
             </div>
+            
+            <div class="audio-controls">
+                <button class="audio-btn" id="playAudioBtn" disabled>
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="audio-btn" id="pauseAudioBtn" disabled>
+                    <i class="fas fa-pause"></i>
+                </button>
+                <button class="audio-btn" id="replayAudioBtn" disabled>
+                    <i class="fas fa-redo"></i>
+                </button>
+                
+                <div class="volume-control">
+                    <i class="fas fa-volume-up"></i>
+                    <div class="volume-slider" id="volumeSlider">
+                        <div class="volume-fill" id="volumeFill"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="audio-loading" id="audioLoading">
+                <i class="fas fa-spinner fa-spin"></i> Đang tải audio...
+            </div>
         </div>
         
         <!-- Nút quay -->
@@ -403,22 +519,74 @@
             <div class="special-text" id="specialText">
                 Ngoannn, khongg khóc, có tớ ở đây bên bé rồi ❤️
             </div>
+            
+            <div class="special-audio-controls">
+                <button class="special-audio-btn" id="specialPlayAudioBtn">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="special-audio-btn" id="specialPauseAudioBtn">
+                    <i class="fas fa-pause"></i>
+                </button>
+                <button class="special-audio-btn" id="specialReplayAudioBtn">
+                    <i class="fas fa-redo"></i>
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
-        // Danh sách các lời yêu thương của bạn
+        // Danh sách các lời yêu thương của bạn với file audio tương ứng
         const loveMessages = [
-            "Tớ thích bé, thương béeeee ❤️",
-            "Tớ nhớ bé siuuu siuuu nhìu luôn 😘",
-            "Tớ sẽ trở nên tốt hơn, bé ở bên tớ nhéeee 💪",
-            "Nhìn gần thì mắt bồ câu, nhìn xa là mắt con dâu mẹ mình 😍",
-            "Bé xinhhh gái nhấc thế giớiiii ✨",
-            "Tớ bù đắp hếc tất cả tổn thương của bé nhéee 🛡️",
-            "Đồ ngốc đừng có nghĩ linhhh tinhhh nhớ 💭",
-            "Tớ không thương cậu thì ai thương :( 🥺",
-            "Chúng mình cùng bên nhauu nhéee 🤝",
-            "Vì bé là em bé bé bỏng của tớ, nên em bé thì không phải làm rì cạ, không được nghĩ rì cả nghe chưaaa 👶"
+            {
+                text: "Tớ thích bé, thương béeeee ❤️",
+                audio: "vo1.m4a",
+                id: 1
+            },
+            {
+                text: "Tớ nhớ bé siuuu siuuu nhìu luôn 😘",
+                audio: "vo2.m4a",
+                id: 2
+            },
+            {
+                text: "Tớ sẽ trở nên tốt hơn, bé ở bên tớ nhéeee 💪",
+                audio: "vo3.m4a",
+                id: 3
+            },
+            {
+                text: "Nhìn gần thì mắt bồ câu, nhìn xa là mắt con dâu mẹ mình 😍",
+                audio: "vo4.m4a",
+                id: 4
+            },
+            {
+                text: "Bé xinhhh gái nhấc thế giớiiii ✨",
+                audio: "vo5.m4a",
+                id: 5
+            },
+            {
+                text: "Tớ bù đắp hếc tất cả tổn thương của bé nhéee 🛡️",
+                audio: "vo6.m4a",
+                id: 6
+            },
+            {
+                text: "Đồ ngốc đừng có nghĩ linhhh tinhhh nhớ 💭",
+                audio: "vo7.m4a",
+                id: 7
+            },
+            {
+                text: "Tớ không thương cậu thì ai thương :( 🥺",
+                audio: "vo8.m4a",
+                id: 8
+            },
+            {
+                text: "Chúng mình cùng bên nhauu nhéee 🤝",
+                audio: "vo9.m4a",
+                id: 9
+            },
+            {
+                text: "Vì bé là em bé bé bỏng của tớ, nên em bé thì không phải làm rì cạ, không được nghĩ rì cả nghe chưaaa 👶",
+                audio: "vo10.m4a",
+                id: 10
+            }
         ];
 
         // Màu sắc cho các bóng
@@ -437,7 +605,13 @@
         let isSpinning = false;
         let balls = [];
         let collectedStickers = [];
-        let spinCount = 0;
+        let currentAudio = null;
+        let specialAudio = null;
+        let currentVolume = 0.7;
+
+        // Audio element
+        const audioElement = new Audio();
+        audioElement.volume = currentVolume;
 
         // Tạo các bóng xung quanh máy gacha
         function createBalls() {
@@ -496,10 +670,10 @@
         }
 
         // Cập nhật bộ sưu tập sticker
-        function updateStickerCollection(messageIndex) {
-            if (collectedStickers.includes(messageIndex)) return;
+        function updateStickerCollection(messageId) {
+            if (collectedStickers.includes(messageId)) return;
             
-            collectedStickers.push(messageIndex);
+            collectedStickers.push(messageId);
             
             // Cập nhật ô sticker
             const slot = document.getElementById(`stickerSlot${collectedStickers.length - 1}`);
@@ -529,6 +703,89 @@
             // Đổi màu counter
             document.getElementById('counter').style.color = '#ffcc00';
             document.getElementById('counter').style.textShadow = '0 0 20px rgba(255, 204, 0, 0.8)';
+            
+            // Tự động phát audio đặc biệt sau 1 giây
+            setTimeout(() => {
+                playSpecialAudio();
+            }, 1000);
+        }
+
+        // Phát audio đặc biệt (vo11.m4a)
+        function playSpecialAudio() {
+            // Dừng audio cũ nếu có
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            
+            // Tạo audio đặc biệt
+            specialAudio = new Audio();
+            specialAudio.volume = currentVolume;
+            specialAudio.src = 'vo11.m4a';
+            
+            // Cập nhật nút điều khiển
+            const specialPlayBtn = document.getElementById('specialPlayAudioBtn');
+            const specialPauseBtn = document.getElementById('specialPauseAudioBtn');
+            
+            specialPlayBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            specialPauseBtn.disabled = false;
+            
+            // Sự kiện khi audio kết thúc
+            specialAudio.addEventListener('ended', () => {
+                specialPlayBtn.innerHTML = '<i class="fas fa-play"></i>';
+                specialPauseBtn.disabled = true;
+            });
+            
+            // Phát audio
+            specialAudio.play();
+            
+            // Xử lý lỗi
+            specialAudio.addEventListener('error', (e) => {
+                console.error('Lỗi tải audio đặc biệt:', e);
+                specialPlayBtn.innerHTML = '<i class="fas fa-play"></i>';
+                specialPauseBtn.disabled = true;
+            });
+        }
+
+        // Điều khiển audio đặc biệt
+        function setupSpecialAudioControls() {
+            const specialPlayBtn = document.getElementById('specialPlayAudioBtn');
+            const specialPauseBtn = document.getElementById('specialPauseAudioBtn');
+            const specialReplayBtn = document.getElementById('specialReplayAudioBtn');
+            
+            // Play audio đặc biệt
+            specialPlayBtn.addEventListener('click', () => {
+                if (specialAudio) {
+                    if (specialAudio.paused) {
+                        specialAudio.play();
+                        specialPlayBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                        specialPauseBtn.disabled = false;
+                    } else {
+                        specialAudio.pause();
+                        specialPlayBtn.innerHTML = '<i class="fas fa-play"></i>';
+                        specialPauseBtn.disabled = true;
+                    }
+                }
+            });
+            
+            // Pause audio đặc biệt
+            specialPauseBtn.addEventListener('click', () => {
+                if (specialAudio && !specialAudio.paused) {
+                    specialAudio.pause();
+                    specialPlayBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    specialPauseBtn.disabled = true;
+                }
+            });
+            
+            // Replay audio đặc biệt
+            specialReplayBtn.addEventListener('click', () => {
+                if (specialAudio) {
+                    specialAudio.currentTime = 0;
+                    specialAudio.play();
+                    specialPlayBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    specialPauseBtn.disabled = false;
+                }
+            });
         }
 
         // Tạo hiệu ứng trái tim rơi
@@ -558,6 +815,131 @@
                     }
                 }, 8000);
             }
+        }
+
+        // Load và phát audio
+        function loadAndPlayAudio(audioFile) {
+            const loadingElement = document.getElementById('audioLoading');
+            const playBtn = document.getElementById('playAudioBtn');
+            const pauseBtn = document.getElementById('pauseAudioBtn');
+            const replayBtn = document.getElementById('replayAudioBtn');
+            
+            // Dừng audio cũ nếu có
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            
+            // Vô hiệu hóa các nút audio
+            playBtn.disabled = true;
+            pauseBtn.disabled = true;
+            replayBtn.disabled = true;
+            
+            // Hiển thị loading
+            loadingElement.style.display = 'block';
+            
+            // Tạo audio mới
+            const audio = new Audio();
+            audio.volume = currentVolume;
+            audio.src = audioFile;
+            
+            // Sự kiện khi audio đã sẵn sàng
+            audio.addEventListener('canplaythrough', () => {
+                loadingElement.style.display = 'none';
+                playBtn.disabled = false;
+                replayBtn.disabled = false;
+                
+                // Tự động phát audio
+                audio.play();
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                pauseBtn.disabled = false;
+            });
+            
+            // Sự kiện khi audio kết thúc
+            audio.addEventListener('ended', () => {
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                playBtn.disabled = false;
+                pauseBtn.disabled = true;
+            });
+            
+            // Lưu audio hiện tại
+            currentAudio = audio;
+            
+            // Xử lý lỗi
+            audio.addEventListener('error', (e) => {
+                loadingElement.style.display = 'none';
+                playBtn.disabled = true;
+                pauseBtn.disabled = true;
+                replayBtn.disabled = true;
+                console.error('Lỗi tải audio:', e);
+            });
+        }
+
+        // Điều khiển audio thường
+        function setupAudioControls() {
+            const playBtn = document.getElementById('playAudioBtn');
+            const pauseBtn = document.getElementById('pauseAudioBtn');
+            const replayBtn = document.getElementById('replayAudioBtn');
+            const volumeSlider = document.getElementById('volumeSlider');
+            const volumeFill = document.getElementById('volumeFill');
+            
+            // Play audio
+            playBtn.addEventListener('click', () => {
+                if (currentAudio) {
+                    if (currentAudio.paused) {
+                        currentAudio.play();
+                        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                        pauseBtn.disabled = false;
+                    } else {
+                        currentAudio.pause();
+                        playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                        pauseBtn.disabled = true;
+                    }
+                }
+            });
+            
+            // Pause audio
+            pauseBtn.addEventListener('click', () => {
+                if (currentAudio && !currentAudio.paused) {
+                    currentAudio.pause();
+                    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    pauseBtn.disabled = true;
+                }
+            });
+            
+            // Replay audio
+            replayBtn.addEventListener('click', () => {
+                if (currentAudio) {
+                    currentAudio.currentTime = 0;
+                    currentAudio.play();
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    pauseBtn.disabled = false;
+                }
+            });
+            
+            // Volume control
+            volumeSlider.addEventListener('click', (e) => {
+                const rect = volumeSlider.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const width = rect.width;
+                const volume = Math.max(0, Math.min(1, x / width));
+                
+                currentVolume = volume;
+                volumeFill.style.width = `${volume * 100}%`;
+                
+                if (currentAudio) {
+                    currentAudio.volume = volume;
+                }
+                
+                if (specialAudio) {
+                    specialAudio.volume = volume;
+                }
+                
+                audioElement.volume = volume;
+            });
+            
+            // Cập nhật volume fill ban đầu
+            volumeFill.style.width = `${currentVolume * 100}%`;
         }
 
         // Hiệu ứng bóng bắn lộn xộn
@@ -595,7 +977,6 @@
             if (isSpinning || collectedStickers.length >= 10) return;
             
             isSpinning = true;
-            spinCount++;
             
             const spinButton = document.getElementById('spinButton');
             const machineCore = document.getElementById('machineCore');
@@ -627,7 +1008,7 @@
                 // Chọn ngẫu nhiên một lời yêu thương (chưa có trong bộ sưu tập nếu có thể)
                 let availableMessages = [];
                 for (let i = 0; i < loveMessages.length; i++) {
-                    if (!collectedStickers.includes(i)) {
+                    if (!collectedStickers.includes(loveMessages[i].id)) {
                         availableMessages.push(i);
                     }
                 }
@@ -640,10 +1021,14 @@
                 const randomIndex = availableMessages[Math.floor(Math.random() * availableMessages.length)];
                 const selectedMessage = loveMessages[randomIndex];
                 
-                messageText.textContent = selectedMessage;
+                // Cập nhật thông điệp
+                messageText.textContent = selectedMessage.text;
                 
                 // Thêm vào bộ sưu tập sticker
-                updateStickerCollection(randomIndex);
+                updateStickerCollection(selectedMessage.id);
+                
+                // Load và phát audio
+                loadAndPlayAudio(selectedMessage.audio);
                 
                 // Hiển thị thông điệp
                 setTimeout(() => {
@@ -680,6 +1065,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             createBalls();
             createStickerSlots();
+            setupAudioControls();
+            setupSpecialAudioControls();
             
             // Sự kiện cho nút quay
             document.getElementById('spinButton').addEventListener('click', spinGacha);
